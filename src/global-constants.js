@@ -1,0 +1,3 @@
+const AGENT_RADIUS = 10;
+const AGENT_SPEED = 7;
+const AGENT_AMOUNT = 40;
