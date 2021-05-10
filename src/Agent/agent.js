@@ -1,40 +1,57 @@
-function Agent(two, frame, dot){
-    const radius = AGENT_RADIUS;
-    let position = getRandomPosition(frame, radius);
-    let speed = AGENT_SPEED;
-    const agentView = drawAgent(two, position, radius)
+function Agent(dot, playArea, utils, systemParameters) {
 
-    const update = (target) => {
-        if(target){
-            targetMove(target)
-        } else {
-            randomMove()
+    let velocity = { x: 0.0, y: 0.0 },
+        acceleration = { x: 0.0, y: 0.0 },
+        position = utils.getRandomPosition(playArea),
+        rf = utils.randomFloat(0.00002, 0.00009),
+        initialFill = dot.fill,
+        accelerationClamp = utils.diffuse(systemParameters.accelerationClamp, 0.15),
+        velocityClamp = utils.diffuse(systemParameters.velocityClamp, 0.15);
+
+    const update = function(targetDot, settings) {
+        const target = targetDot.translation;
+
+        const d = utils.distanceTo(position, target);
+        const distance = utils.getDistance(d);
+
+        const accelerationRate = distance * rf;
+        acceleration.x = d.x * accelerationRate;
+        acceleration.y = d.y * accelerationRate;
+
+        acceleration.x = utils.clamp(acceleration.x, accelerationClamp);
+        acceleration.y = utils.clamp(acceleration.y, accelerationClamp);
+
+        velocity.x = velocity.x + acceleration.x;
+        velocity.y = velocity.y + acceleration.y;
+
+        velocity.x = utils.clamp(velocity.x, velocityClamp);
+        velocity.y = utils.clamp(velocity.y, velocityClamp);
+
+        position.x += velocity.x;
+        position.y += velocity.y;
+
+        dot.translation.set(position.x, position.y);
+
+        updateLeaderState(settings);
+    };
+
+    const updateLeaderState = function(settings) {
+        if(systemParameters.debug === true) {
+            if(settings != null){
+                dot.fill = settings.fill;
+                dot.scale = settings.scale;
+            }
+            else{
+                if(dot.scale !== 1) {
+                    dot.fill = initialFill;
+                    dot.scale = 1;
+                }
+            }
         }
-    }
-
-    const randomMove = () => {
-        const x = getRandomInt(position.x - speed, position.x + speed);
-        const y = getRandomInt(position.y - speed, position.y + speed);
-        const vector = new Two.Vector(x, y);
-        move(vector)
-    }
-
-    const targetMove = (target) => {
-        const vector = new Two.Vector(target.x, target.y);
-        move(vector);
-    }
-
-    const move = (vector) => {
-        position = {x: vector.x, y: vector.y};
-        agentView.translation.set(vector.x, vector.y);
-    }
-
-    // const move = (target) => {
-    //     const way = Math.sqrt(Math.pow(position.x - target.x, 2) + Math.pow(position.y - target.y, 2));
-    //
-    // }
+    };
 
     return {
-        update
-    }
+        dot: dot,
+        update: update
+    };
 }
