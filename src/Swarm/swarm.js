@@ -1,11 +1,11 @@
-function Swarm(two, playArea, utils, systemParameters) {
+function Swarm(two, playArea) {
 
     let agents = [];
 
-    const spawnAgent = function() {
-        const colour = i % 3 === 0 ? systemParameters.beeAltColour : systemParameters.beeColour;
-        const dot = utils.createDot(two, colour);
-        const agent = new Agent(dot, playArea, utils, systemParameters);
+    const spawnAgent = function(i) {
+        const colour = i % 2 === 0 ? AGENT_MAIN_COLOR : AGENT_SUPPORT_COLOR;
+        const dot = createDot(two, colour);
+        const agent = new Agent(dot, playArea);
         agents.push(agent);
     };
 
@@ -23,7 +23,7 @@ function Swarm(two, playArea, utils, systemParameters) {
                 const agent = groupedAgents[i];
 
                 if (agent === leader) {
-                    agent.update(target, systemParameters.indicator);
+                    agent.update(target);
                 } else {
                     agent.update(leader.dot);
                 }

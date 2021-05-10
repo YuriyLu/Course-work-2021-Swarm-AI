@@ -1,16 +1,16 @@
-function TargetCollection(two, playArea, utils, systemParameters) {
+function TargetCollection(two, playArea) {
 
     let targets = [];
 
     const spawnTarget = function() {
-        const targetDot = utils.createDot(two, systemParameters.targetColour, 3);
-        const target = new Target(targetDot, playArea, utils, systemParameters);
+        const targetDot = createDot(two, TARGETS_COLOR, 3);
+        const target = new Target(targetDot, playArea);
         targets.push(target);
     };
 
     const spawnMouseTarget = function() {
-        const targetDot = utils.createDot(two, systemParameters.mouseTargetColour, 3);
-        const target = new MouseTarget(targetDot, playArea, utils, systemParameters);
+        const targetDot = createDot(two, MOUSE_TARGET_COLOR, 3);
+        const target = new MouseTarget(targetDot, playArea);
         targets.push(target);
     };
 
@@ -25,7 +25,7 @@ function TargetCollection(two, playArea, utils, systemParameters) {
 
         // turn target collection into a wrapped target with children
         for (let i = targets.length - 1; i >= 0; i--) {
-            targetGroups.push(new TargetGroup(targets[i], utils));
+            targetGroups.push(new TargetGroup(targets[i]));
         }
 
         // assign a bee to a target group
@@ -37,15 +37,14 @@ function TargetCollection(two, playArea, utils, systemParameters) {
             // works out closest target for each bee and adds the bee to that target's group
             for (let j = targetGroups.length - 1; j >= 0; j--) {
                 const target = targetGroups[j].target,
-                    distanceTo = utils.distanceTo(bee.dot.translation, target.translation),
-                    distance = utils.getDistance(distanceTo);
+                    distance = getDistance(distanceTo(bee.dot.translation, target.translation));
 
                 if(beeTarget == null || distance < beeTarget.distance) {
                     beeTarget = { target: target, distance: distance, id: j };
                 }
                 else if(distance === beeTarget.distance) {
                     // if they are the same, pick a random one
-                    const rnd = utils.randomInt(0, 1);
+                    const rnd = randomInt(0, 1);
                     beeTarget = rnd === 0 ? beeTarget : { target: target, distance: distance, id: j };
                 }
             }

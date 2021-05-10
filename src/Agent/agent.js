@@ -1,53 +1,35 @@
-function Agent(dot, playArea, utils, systemParameters) {
+function Agent(dot, playArea) {
 
     let velocity = { x: 0.0, y: 0.0 },
         acceleration = { x: 0.0, y: 0.0 },
-        position = utils.getRandomPosition(playArea),
-        rf = utils.randomFloat(0.00002, 0.00009),
-        initialFill = dot.fill,
-        accelerationClamp = utils.diffuse(systemParameters.accelerationClamp, 0.15),
-        velocityClamp = utils.diffuse(systemParameters.velocityClamp, 0.15);
+        position = getRandomPosition(playArea),
+        rf = randomFloat(0.00002, 0.00009),
+        accelerationClamp = diffuse(ACCELERATION_CLAMP, 0.15),
+        velocityClamp = diffuse(VELOCITY_CLAMP, 0.15);
 
     const update = function(targetDot, settings) {
         const target = targetDot.translation;
 
-        const d = utils.distanceTo(position, target);
-        const distance = utils.getDistance(d);
+        const d = distanceTo(position, target);
+        const distance = getDistance(d);
 
-        const accelerationRate = distance * rf;
+        const accelerationRate = 1;
         acceleration.x = d.x * accelerationRate;
         acceleration.y = d.y * accelerationRate;
 
-        acceleration.x = utils.clamp(acceleration.x, accelerationClamp);
-        acceleration.y = utils.clamp(acceleration.y, accelerationClamp);
+        acceleration.x = clamp(acceleration.x, accelerationClamp);
+        acceleration.y = clamp(acceleration.y, accelerationClamp);
 
         velocity.x = velocity.x + acceleration.x;
         velocity.y = velocity.y + acceleration.y;
 
-        velocity.x = utils.clamp(velocity.x, velocityClamp);
-        velocity.y = utils.clamp(velocity.y, velocityClamp);
+        velocity.x = clamp(velocity.x, velocityClamp);
+        velocity.y = clamp(velocity.y, velocityClamp);
 
         position.x += velocity.x;
         position.y += velocity.y;
 
         dot.translation.set(position.x, position.y);
-
-        updateLeaderState(settings);
-    };
-
-    const updateLeaderState = function(settings) {
-        if(systemParameters.debug === true) {
-            if(settings != null){
-                dot.fill = settings.fill;
-                dot.scale = settings.scale;
-            }
-            else{
-                if(dot.scale !== 1) {
-                    dot.fill = initialFill;
-                    dot.scale = 1;
-                }
-            }
-        }
     };
 
     return {

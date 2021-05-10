@@ -1,5 +1,7 @@
 <html>
 <head>
+    <script type="text/javascript" src="src/utils.js"></script>
+    <script type="text/javascript" src="src/globalConstants.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
     <script type="text/javascript" src="src/two.js"></script>
     <script type="text/javascript" src="src/Agent/agent.js"></script>
@@ -9,8 +11,8 @@
     <script type="text/javascript" src="src/Targets/targetCollection.js"></script>
     <script type="text/javascript" src="src/Targets/targetGroup.js"></script>
     <script type="text/javascript" src="src/Targets/targetGroupCache.js"></script>
-    <script type="text/javascript" src="src/systemParameters.js"></script>
-    <script type="text/javascript" src="src/utils.js"></script>
+
+
 
     <style>
         body {
@@ -27,46 +29,38 @@
 <body>
 <div id="canvas" style="background: black"></div>
 <script type="text/javascript">
-    var utils = new Utils(),
-        systemParameters = new SystemParameters(utils);
-
-    var elem = document.getElementById('canvas');
-    var playArea = {
+    randomInt(1, 32)
+    let elem = document.getElementById('canvas');
+    const playArea = {
         width: $(window).width() - 20,
         height: $(window).height() - 40
     };
 
-    var two = new Two(playArea).appendTo(elem);
+    let two = new Two(playArea).appendTo(elem);
 
-    var beeCollection = new Swarm(two, playArea, utils, systemParameters),
-        targetCollection = new TargetCollection(two, playArea, utils, systemParameters);
+    let beeCollection = new Swarm(two, playArea),
+        targetCollection = new TargetCollection(two, playArea);
 
     targetCollection.spawnMouseTarget();
 
-    for (var i = 0; i < systemParameters.targets; i++) {
+    for (let i = 0; i < TARGETS_AMOUNT; i++) {
         targetCollection.spawnTarget();
-    };
+    }
 
-    for(var i = 0; i < systemParameters.bees; i ++) {
-        beeCollection.spawnAgent();
-    };
+    for(let i = 0; i < AGENTS_AMOUNT; i ++) {
+        beeCollection.spawnAgent(i);
+    }
 
-    var targetGroupCache = new TargetGroupCache(targetCollection, systemParameters);
+    const targetGroupCache = new TargetGroupCache(targetCollection);
 
     two.bind('update', function () {
         targetCollection.update();
 
-        var groupedBees = targetGroupCache.getGroup(beeCollection.agents);
+        const groupedBees = targetGroupCache.getGroup(beeCollection.agents);
         beeCollection.update(groupedBees);
     });
 
-    if(systemParameters.frameThrottle) {
-        two.play();
-    } else {
-        // will run the game as fast as possible.
-        // used for debugging perf
-        setInterval(function () { two.update(); }, 0);
-    }
+    two.play();
 </script>
 </body>
 </html>

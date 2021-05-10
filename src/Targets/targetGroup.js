@@ -1,4 +1,4 @@
-function TargetGroup(target, utils) {
+function TargetGroup(target) {
 
     let agents = [],
         leader = { agent: null, distance: 0 };
@@ -7,7 +7,7 @@ function TargetGroup(target, utils) {
         agents.push(agent);
 
         // works out the current leader while bees are being added to the array
-        const distance = utils.getDistance(utils.distanceTo(agent.dot.translation, target.translation));
+        const distance = getDistance(distanceTo(agent.dot.translation, target.translation));
         if(leader.agent == null || distance < leader.distance) {
             leader.agent = agent;
             leader.distance = distance;
