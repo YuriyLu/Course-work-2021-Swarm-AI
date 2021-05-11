@@ -9,10 +9,6 @@
     <script type="text/javascript" src="src/Targets/mouseTarget.js"></script>
     <script type="text/javascript" src="src/Targets/target.js"></script>
     <script type="text/javascript" src="src/Targets/targetCollection.js"></script>
-    <script type="text/javascript" src="src/Targets/targetGroup.js"></script>
-    <script type="text/javascript" src="src/Targets/targetGroupCache.js"></script>
-
-
 
     <style>
         body {
@@ -29,38 +25,39 @@
 <body>
 <div id="canvas" style="background: black"></div>
 <script type="text/javascript">
-    randomInt(1, 32)
     let elem = document.getElementById('canvas');
     const playArea = {
         width: $(window).width() - 20,
         height: $(window).height() - 40
     };
 
-    let two = new Two(playArea).appendTo(elem);
+    const two = new Two(playArea).appendTo(elem);
 
-    let beeCollection = new Swarm(two, playArea),
-        targetCollection = new TargetCollection(two, playArea);
+    const swarm = new Swarm(two, playArea);
+    swarm.spawnAgents();
 
+
+    const targetCollection = new TargetCollection(two, playArea);
     targetCollection.spawnMouseTarget();
-
-    for (let i = 0; i < TARGETS_AMOUNT; i++) {
-        targetCollection.spawnTarget();
-    }
-
-    for(let i = 0; i < AGENTS_AMOUNT; i ++) {
-        beeCollection.spawnAgent(i);
-    }
-
-    const targetGroupCache = new TargetGroupCache(targetCollection);
+    targetCollection.spawnTargets();
 
     two.bind('update', function () {
         targetCollection.update();
-
-        const groupedBees = targetGroupCache.getGroup(beeCollection.agents);
-        beeCollection.update(groupedBees);
+        targetCollection.groupAgents(swarm.agents);
+        swarm.update(targetCollection.targets);
     });
 
-    two.play();
+    two.update()
+
+    window.onkeydown = (event) => {
+        if (event.code === `Space`){
+            if (two.playing) {
+                two.pause()
+            } else {
+                two.play()
+            }
+        }
+    }
 </script>
 </body>
 </html>

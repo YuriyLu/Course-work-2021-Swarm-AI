@@ -1,4 +1,6 @@
-function MouseTarget(dot) {
+function MouseTarget(dot, num) {
+    const id = num;
+
     let pos = dot.translation,
         mouseX = 0,
         mouseY = 0;
@@ -16,6 +18,7 @@ function MouseTarget(dot) {
     }
 
     return {
+        id: id,
         translation: pos,
         update: update
     };

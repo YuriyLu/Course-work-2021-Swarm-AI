@@ -2,34 +2,27 @@ function Swarm(two, playArea) {
 
     let agents = [];
 
-    const spawnAgent = function(i) {
+    const spawnAgent = function (i) {
         const colour = i % 2 === 0 ? AGENT_MAIN_COLOR : AGENT_SUPPORT_COLOR;
         const dot = createDot(two, colour);
-        const agent = new Agent(dot, playArea);
+        const agent = new Agent(dot, playArea, i);
         agents.push(agent);
     };
 
-    const update = function(targetGroups) {
-        // for each group, detect the leader and update agents
-
-        for (let x = targetGroups.length - 1; x >= 0; x--) {
-            const targetGroup = targetGroups[x];
-            const target = targetGroup.target;
-            const groupedAgents = targetGroups[x].bees;
-            const leader = targetGroup.getLeader();
-
-            groupedAgents.map(agent => {
-                if (agent === leader) {
-                    agent.update(target);
-                } else {
-                    agent.update(leader.dot);
-                }
-            })
+    const update = function (targets) {
+        for (let x = AGENTS_AMOUNT - 1; x >= 0; x--) {
+            agents[x].update(targets);
         }
     };
 
+    const spawnAgents = () => {
+        for (let i = 0; i < AGENTS_AMOUNT; i++) {
+            spawnAgent(i);
+        }
+    }
+
     return {
-        spawnAgent: spawnAgent,
+        spawnAgents: spawnAgents,
         update: update,
         agents: agents
     };

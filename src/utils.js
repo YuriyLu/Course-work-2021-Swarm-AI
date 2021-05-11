@@ -21,7 +21,7 @@ const getDistance = (distanceBetween) => {
     return Math.sqrt((distanceBetween.x * distanceBetween.x) + (distanceBetween.y * distanceBetween.y));
 }
 
-const clamp = (value, limit) => {
+const checkTheLimit = (value, limit) => {
     if(value > limit)
         value = limit;
     if(value < -limit)
@@ -53,3 +53,7 @@ const randomise = (value, differential) => {
 
     return value * randomFloat(min, max);
 };
+
+const getTargetById = (id, targets) => {
+    return targets.find(target => target.id === id)
+}

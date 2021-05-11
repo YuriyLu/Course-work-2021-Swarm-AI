@@ -1,4 +1,4 @@
-const AGENTS_AMOUNT = 360;
+const AGENTS_AMOUNT = 30;
 const AGENT_SIZE = 5;
 const AGENT_MAIN_COLOR = '#ff0000';
 const AGENT_SUPPORT_COLOR = '#b29f20';
@@ -16,4 +16,3 @@ const TARGET_SPEED_MODIFIER = 2;
 
 const VELOCITY_CLAMP = 7;
 const ACCELERATION_CLAMP = 0.6;
-const CACHE_LOOPS = 10;

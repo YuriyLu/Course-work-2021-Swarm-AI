@@ -1,4 +1,6 @@
-function Target(dot, playArea) {
+function Target(dot, playArea, num) {
+    const id = num;
+
     let clockwise = randomInt(0, 1) === 0,
         degrees = randomInt(1, 360),
         pos = dot.translation,
@@ -25,6 +27,7 @@ function Target(dot, playArea) {
     };
 
     return {
+        id: id,
         translation: pos,
         update: update
     };
