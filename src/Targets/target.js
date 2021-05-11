@@ -2,7 +2,7 @@ function Target(dot, playArea) {
     let clockwise = randomInt(0, 1) === 0,
         degrees = randomInt(1, 360),
         pos = dot.translation,
-        speedModifier = diffuse(TARGET_SPEED_MODIFIER, 0.15);
+        speedModifier = randomise(TARGET_SPEED_MODIFIER, 0.15);
 
     const update = function() {
         const radians = toRadians(degrees / speedModifier); // convert degrees to radians

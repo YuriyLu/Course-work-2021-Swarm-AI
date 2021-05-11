@@ -41,18 +41,13 @@ const getRandomPosition = (playArea) => {
 }
 
 const createDot = (two, color, size) => {
-    const x = 5,
-        y = 5;
-
-    size = size || 10;
-
-    const dot = two.makeCircle(x, y, size);
+    const dot = two.makeCircle(AGENT_SIZE, AGENT_SIZE, size || AGENT_SIZE);
     dot.fill = color || 'yellow';
 
     return dot;
 };
 
-const diffuse = (value, differential) => {
+const randomise = (value, differential) => {
     const min = 1 - differential,
         max = 1 + differential;
 

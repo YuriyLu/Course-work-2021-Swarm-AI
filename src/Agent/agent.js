@@ -1,27 +1,21 @@
 function Agent(dot, playArea) {
 
     let velocity = { x: 0.0, y: 0.0 },
-        acceleration = { x: 0.0, y: 0.0 },
-        position = getRandomPosition(playArea),
-        rf = randomFloat(0.00002, 0.00009),
-        accelerationClamp = diffuse(ACCELERATION_CLAMP, 0.15),
-        velocityClamp = diffuse(VELOCITY_CLAMP, 0.15);
+        position = getRandomPosition(playArea);
+    const accelerationClamp = randomise(ACCELERATION_CLAMP, AGENT_DELTA_VALUE),
+        velocityClamp = randomise(VELOCITY_CLAMP, AGENT_DELTA_VALUE),
+        randomFactor = randomFloat(0.00002, 0.00009);
 
-    const update = function(targetDot, settings) {
+    const update = function(targetDot) {
         const target = targetDot.translation;
 
         const d = distanceTo(position, target);
         const distance = getDistance(d);
 
-        const accelerationRate = 1;
-        acceleration.x = d.x * accelerationRate;
-        acceleration.y = d.y * accelerationRate;
+        const accelerationRate = distance * randomFactor;
 
-        acceleration.x = clamp(acceleration.x, accelerationClamp);
-        acceleration.y = clamp(acceleration.y, accelerationClamp);
-
-        velocity.x = velocity.x + acceleration.x;
-        velocity.y = velocity.y + acceleration.y;
+        velocity.x += clamp(d.x * accelerationRate, accelerationClamp);
+        velocity.y += clamp(d.y * accelerationRate, accelerationClamp);
 
         velocity.x = clamp(velocity.x, velocityClamp);
         velocity.y = clamp(velocity.y, velocityClamp);

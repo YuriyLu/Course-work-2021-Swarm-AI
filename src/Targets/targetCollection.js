@@ -3,13 +3,13 @@ function TargetCollection(two, playArea) {
     let targets = [];
 
     const spawnTarget = function() {
-        const targetDot = createDot(two, TARGETS_COLOR, 3);
+        const targetDot = createDot(two, TARGETS_COLOR, TARGETS_SIZE);
         const target = new Target(targetDot, playArea);
         targets.push(target);
     };
 
     const spawnMouseTarget = function() {
-        const targetDot = createDot(two, MOUSE_TARGET_COLOR, 3);
+        const targetDot = createDot(two, MOUSE_TARGET_COLOR, MOUSE_TARGET_SIZE);
         const target = new MouseTarget(targetDot, playArea);
         targets.push(target);
     };

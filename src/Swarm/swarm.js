@@ -16,18 +16,15 @@ function Swarm(two, playArea) {
             const targetGroup = targetGroups[x];
             const target = targetGroup.target;
             const groupedAgents = targetGroups[x].bees;
-
             const leader = targetGroup.getLeader();
 
-            for (let i = groupedAgents.length - 1; i >= 0; i--) {
-                const agent = groupedAgents[i];
-
+            groupedAgents.map(agent => {
                 if (agent === leader) {
                     agent.update(target);
                 } else {
                     agent.update(leader.dot);
                 }
-            }
+            })
         }
     };
 
