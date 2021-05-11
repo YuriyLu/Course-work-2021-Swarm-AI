@@ -9,17 +9,35 @@ function Swarm(two, playArea) {
         agents.push(agent);
     };
 
-    const update = function (targets) {
-        for (let x = AGENTS_AMOUNT - 1; x >= 0; x--) {
-            agents[x].update(targets);
-        }
-    };
-
     const spawnAgents = () => {
         for (let i = 0; i < AGENTS_AMOUNT; i++) {
             spawnAgent(i);
         }
     }
+
+    const update = (targets) => {
+        agents.map((agent) => {
+            const agentTarget = getTargetById(agent.getTargetId(), targets);
+
+            let newAgentTarget = undefined;
+
+            targets.map((newTarget) => {
+                if (newTarget.id !== agentTarget.id) {
+                    const distanceToNewTarget = getDistance(distanceTo(agent.dot.translation, newTarget.translation));
+                    const distanceToTarget = getDistance(distanceTo(agent.dot.translation, agentTarget.translation));
+                    if (!agentTarget || distanceToNewTarget < distanceToTarget) {
+                        newAgentTarget = newTarget
+                    } else if (distanceToNewTarget === agentTarget.distance && newTarget.id === 0) {
+                        newAgentTarget = newTarget;
+                    }
+                }
+            })
+            if (newAgentTarget) {
+                agent.setTargetId(newAgentTarget.id)
+            }
+            agent.update(targets)
+        })
+    };
 
     return {
         spawnAgents: spawnAgents,

@@ -1,13 +1,13 @@
 const AGENTS_AMOUNT = 30;
 const AGENT_SIZE = 5;
-const AGENT_MAIN_COLOR = '#ff0000';
-const AGENT_SUPPORT_COLOR = '#b29f20';
+const AGENT_MAIN_COLOR = '#022dff';
+const AGENT_SUPPORT_COLOR = '#8c8def';
 
 const AGENT_DELTA_VALUE = 0.15;
 
 const TARGETS_AMOUNT = 2;
 const TARGETS_SIZE = 20;
-const TARGETS_COLOR = '#9d00ff';
+const TARGETS_COLOR = '#992323';
 
 const MOUSE_TARGET_SIZE = 10;
 const MOUSE_TARGET_COLOR = '#ffffff';

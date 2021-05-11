@@ -36,14 +36,11 @@
     const swarm = new Swarm(two, playArea);
     swarm.spawnAgents();
 
-
     const targetCollection = new TargetCollection(two, playArea);
-    targetCollection.spawnMouseTarget();
     targetCollection.spawnTargets();
 
     two.bind('update', function () {
         targetCollection.update();
-        targetCollection.groupAgents(swarm.agents);
         swarm.update(targetCollection.targets);
     });
 
