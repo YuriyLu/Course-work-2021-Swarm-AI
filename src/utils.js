@@ -41,7 +41,7 @@ const getRandomPosition = (playArea) => {
 }
 
 const createDot = (two, color, size) => {
-    const dot = two.makeCircle(AGENT_SIZE, AGENT_SIZE, size || AGENT_SIZE);
+    const dot = two.makeCircle(AGENT_SIZE, AGENT_SIZE, size || AGENT_SIZE, 0);
     dot.fill = color || 'yellow';
 
     return dot;

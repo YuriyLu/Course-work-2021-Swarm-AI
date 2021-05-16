@@ -1,4 +1,4 @@
-const AGENTS_AMOUNT = 30;
+const AGENTS_AMOUNT = 20;
 const AGENT_SIZE = 5;
 const AGENT_MAIN_COLOR = '#022dff';
 const AGENT_SUPPORT_COLOR = '#8c8def';
@@ -6,7 +6,7 @@ const AGENT_SUPPORT_COLOR = '#8c8def';
 const AGENT_DELTA_VALUE = 0.15;
 
 const TARGETS_AMOUNT = 2;
-const TARGETS_SIZE = 20;
+const TARGETS_SIZE = 25;
 const TARGETS_COLOR = '#992323';
 
 const MOUSE_TARGET_SIZE = 10;
@@ -16,3 +16,7 @@ const TARGET_SPEED_MODIFIER = 2;
 
 const VELOCITY_CLAMP = 7;
 const ACCELERATION_CLAMP = 0.6;
+
+const WITH_BLOCKCHAIN = true;
+const TIME_TO_UPDATE = 10;
+
